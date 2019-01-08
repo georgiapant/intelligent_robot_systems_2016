@@ -230,8 +230,8 @@ class RobotPerception:
         # Update coverage
         x = self.robot_pose['x_px']
         y = self.robot_pose['y_px']
-        xx = self.robot_pose['x_px'] + abs(self.origin['x'] / self.resolution)
-        yy = self.robot_pose['y_px'] + abs(self.origin['y'] / self.resolution)
+        xx = int(self.robot_pose['x_px'] + abs(self.origin['x'] / self.resolution))
+        yy = int(self.robot_pose['y_px'] + abs(self.origin['y'] / self.resolution))
         for i in range(-20, 20):
             for j in range(-20, 20):
                 if self.ogm[xx + i, yy + j] > 49 or self.ogm[xx + i, yy + j] == -1:

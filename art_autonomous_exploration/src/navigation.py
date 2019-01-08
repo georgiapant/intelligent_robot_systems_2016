@@ -99,12 +99,27 @@ class Navigation:
         # What if a later subtarget or the end has been reached before the 
         # next subtarget? Alter the code accordingly.
         # Check if distance is less than 7 px (14 cm)
-        if dist < 5:
+        if dist < 7:
           self.next_subtarget += 1
           self.counter_to_next_sub = self.count_limit
           # Check if the final subtarget has been approached
           if self.next_subtarget == len(self.subtargets):
             self.target_exists = False
+
+
+        nextSub = self.next_subtarget + 1
+        while nextSub < len(self.subtargets):
+        	if math.hypot(rx-self.subtargets[nextSub][0],ry - self.subtargets[nextSub][1]) < dist:
+        		self.next_subtarget += 1
+            	self.counter_to_next_sub = self.count_limit	
+            	dist = math.hypot(rx-self.subtargets[nextSub][0],ry - self.subtargets[nextSub][1])
+        	nextSub+=1
+
+        
+
+
+
+        
         ########################################################################
         
         # Publish the current target
@@ -230,7 +245,8 @@ class Navigation:
           # Fill the ps.pose.position values to show the path in RViz
           # You must understand what self.robot_perception.resolution
           # and self.robot_perception.origin are.
-        
+          ps.pose.position.x = p[0]*self.robot_perception.resolution+self.robot_perception.origin['x']
+          ps.pose.position.y = p[1]*self.robot_perception.resolution+self.robot_perception.origin['y']
           ########################################################################
           ros_path.poses.append(ps)
         self.path_publisher.publish(ros_path)
@@ -281,6 +297,11 @@ class Navigation:
             st_y = self.subtargets[self.next_subtarget][1]
             
         ######################### NOTE: QUESTION  ##############################
+            phi = math.atan2((st_y-ry),(st_x-rx))-theta #angle error
+            d = pow(pow(st_y-ry,2) + pow(st_x-rx,2),0.5) #distance from target
+
+            angular = math.atan(7*phi)*0.6/math.pi
+            linear=pow(0.3-abs(angular),2)
 
         return [linear, angular]
 

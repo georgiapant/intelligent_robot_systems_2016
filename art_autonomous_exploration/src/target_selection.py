@@ -81,6 +81,17 @@ class TargetSelection:
             [0.3, 0.4, 0.7, 0.5], # Color RGBA
             0.1 # Scale
         )
+
+        [rx, ry]=[robot_pose['x'], robot_pose['y']]
+
+        d=[]
+        for n in vis_nodes:
+            d.append(pow(pow(n[1]-ry,2) + pow(n[0]-rx,2),0.5)) #distance from node
+
+        min_index = d.index(min(d))
+
+        target=[nodes[min_index][0],nodes[min_index][1]]
+        self.method = 'paparia'
     
         # Random point
         if self.method == 'random' or force_random == True:
