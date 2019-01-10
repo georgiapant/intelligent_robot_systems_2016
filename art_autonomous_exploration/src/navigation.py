@@ -99,7 +99,7 @@ class Navigation:
         # What if a later subtarget or the end has been reached before the 
         # next subtarget? Alter the code accordingly.
         # Check if distance is less than 7 px (14 cm)
-        if dist < 7:
+        if dist < 5:
           self.next_subtarget += 1
           self.counter_to_next_sub = self.count_limit
           # Check if the final subtarget has been approached
@@ -223,7 +223,7 @@ class Navigation:
           self.subtargets.append(self.path[i * step])
         self.subtargets.append(self.path[-1])
         self.next_subtarget = 0
-        print "The path produced " + str(len(self.subtargets)) + " subgoals"
+        print "The path produced " + str(len(self.subtargets)) + " subtargets"
         
         ######################### NOTE: QUESTION  ##############################
         # The path is produced by an A* algorithm. This means that it is
